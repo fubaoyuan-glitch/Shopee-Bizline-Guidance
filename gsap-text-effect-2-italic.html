@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GSAP Text Effect 2 Italic</title>
+    <style>
+      * { box-sizing: border-box; }
+      :root { --phone-w: 375px; --phone-h: 816px; --ink: #1f0f08; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, Arial, sans-serif;
+      }
+      .stage {
+        width: min(var(--phone-w), 100vw);
+        height: min(var(--phone-h), 100vh);
+        display: grid;
+        place-items: center;
+      }
+      .phone {
+        position: relative;
+        width: var(--phone-w);
+        height: var(--phone-h);
+        overflow: hidden;
+        background: #fff;
+      }
+      .phone::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("assets/homepage-bg-15799-15828.png") center / cover no-repeat;
+      }
+      .copy-lockup {
+        position: absolute;
+        left: 38px;
+        right: 24px;
+        top: 650px;
+        z-index: 1;
+        margin: 0;
+        color: var(--ink);
+        font-size: 26px;
+        font-style: italic;
+        font-weight: 900;
+        letter-spacing: 0;
+        line-height: 1.08;
+        filter: drop-shadow(0 3px 0 rgba(255, 255, 255, 0.82));
+      }
+      .copy-line {
+        display: block;
+        white-space: nowrap;
+        transform-origin: left center;
+        will-change: transform, opacity, clip-path, filter;
+      }
+      .copy-line + .copy-line { margin-top: 4px; }
+      .word { display: inline-block; }
+      @media (max-width: 430px), (max-height: 840px) {
+        body { overflow: auto; }
+        .phone { transform: scale(min(calc(100vw / 375), calc(100vh / 816))); transform-origin: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" aria-label="GSAP line sweep text animation">
+      <section class="phone">
+        <h1 class="copy-lockup" aria-label="Catch the latest deals on livestream now">
+          <span class="copy-line">
+            <span class="word">Catch</span>
+            <span class="word">The</span>
+            <span class="word">Latest</span>
+            <span class="word">Deals</span>
+          </span>
+          <span class="copy-line">
+            <span class="word">On</span>
+            <span class="word">Livestream</span>
+            <span class="word">Now!</span>
+          </span>
+        </h1>
+      </section>
+    </main>
+    <script src="assets/gsap.min.js"></script>
+    <script>
+      const lines = gsap.utils.toArray(".copy-line");
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.75 });
+
+      tl.set(lines, { opacity: 0, x: -34, clipPath: "inset(0 100% 0 0)", filter: "blur(3px)" })
+        .to(lines, {
+          opacity: 1,
+          x: 0,
+          clipPath: "inset(0 0% 0 0)",
+          filter: "blur(0px)",
+          duration: 0.82,
+          ease: "expo.out",
+          stagger: 0.16
+        })
+        .to(lines, {
+          x: 7,
+          duration: 0.22,
+          ease: "power2.out",
+          yoyo: true,
+          repeat: 1,
+          stagger: 0.04
+        }, "-=0.1")
+        .to(lines, {
+          opacity: 0,
+          x: 26,
+          clipPath: "inset(0 0 0 100%)",
+          filter: "blur(2px)",
+          duration: 0.5,
+          ease: "power2.in",
+          stagger: 0.06
+        }, "+=1.45");
+    </script>
+  </body>
+</html>
